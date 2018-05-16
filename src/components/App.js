@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import Header from './Header';
-import AddContact from '../containers/AddContact';
-import VisibleContactList from '../containers/VisibleContactList';
+import AddContact from './AddContact';
+import VisibleContactList from './VisibleContactList';
 import Footer from './Footer';
 
 import './App.css';
