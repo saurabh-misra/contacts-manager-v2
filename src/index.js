@@ -10,8 +10,19 @@ import './index.css';
 
 import registerServiceWorker from './registerServiceWorker';
 
+const persistedState = {
+    contacts: [
+        {
+            id: 0,
+            name: 'Arpita Misra',
+            phone: '9042160421',
+            isFavorite: true
+        }
+    ]
+}
+
 ReactDOM.render(
-    <Provider store={createStore(reducer)}>
+    <Provider store={createStore(reducer, persistedState)}>
         <App />
     </Provider>, 
     document.getElementById('root')
