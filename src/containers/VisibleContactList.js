@@ -9,21 +9,17 @@ const getVisibleContacts = (contacts, filter) => {
 
     return contacts;
 };
-const mapStateToContactListProps = (state) => {
-    return {
-        contacts: getVisibleContacts(state.contacts, state.visibilityFilter)
-    };
-}
-const mapDispatchToContactListProps = (dispatch) => {
-    return {
-        onFavoriteToggle: (id) => {
-            dispatch(toggleFavorite(id));
-        }
-    };
-};
+const mapStateToProps = (state) => ({
+    contacts: getVisibleContacts(state.contacts, state.visibilityFilter)
+});
+const mapDispatchToProps = (dispatch) => ({
+    onFavoriteToggle(id) {
+        dispatch(toggleFavorite(id));
+    }
+});
 const VisibleContactList = connect(
-    mapStateToContactListProps,
-    mapDispatchToContactListProps
+    mapStateToProps,
+    mapDispatchToProps
 )(ContactList);
 
 export default VisibleContactList;

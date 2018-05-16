@@ -7,8 +7,7 @@ import './ContactList.css';
 const ContactList = ({
     contacts,
     onFavoriteToggle
-}) => {
-    return (
+}) => (
         <ul className='Contacts'>
             {
                 contacts.map(
@@ -24,7 +23,6 @@ const ContactList = ({
                 )
             }
         </ul>
-    );
-};
+);
 
 export default ContactList;

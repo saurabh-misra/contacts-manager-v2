@@ -4,8 +4,7 @@ import FilterLink from '../containers/FilterLink';
 
 import './Footer.css';
 
-const Footer = ({ store }) => {
-    return (
+const Footer = ({ store }) => (
         <p id='Footer'>
             Show:
             {' '}
@@ -21,7 +20,6 @@ const Footer = ({ store }) => {
                 Favorites
             </FilterLink>
         </p>
-    );
-};
+);
 
 export default Footer;
