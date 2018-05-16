@@ -1,9 +1,10 @@
-let nextTodoId = 0;
+import { v4 } from 'node-uuid';
+
 export const addContact = (name, phone) => ({
     type: 'ADD_CONTACT',
     contact: {
         name,
-        id: nextTodoId++,
+        id: v4(),
         phone,
         isFavorite: false
     }
