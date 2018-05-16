@@ -1,0 +1,10 @@
+#AddContact input,#AddContact button{
+    padding: 5px;
+    box-sizing: border-box;
+}
+#AddContact input{
+    width: 40%;
+}
+#AddContact button{
+    width: 20%;
+}
