@@ -15,3 +15,11 @@ const contacts = (state = [], action) => {
 };
 
 export default contacts;
+
+export const getVisibleContacts = (state, filter) => {
+    if (filter === 'favorites')
+        return state.filter((contact) => contact.isFavorite);
+
+    return state;
+};
+
