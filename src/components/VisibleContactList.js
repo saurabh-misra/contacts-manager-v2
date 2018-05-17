@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import ContactList from './ContactList';
 import { toggleFavorite } from '../actions';
@@ -10,16 +11,18 @@ const getVisibleContacts = (contacts, filter) => {
     return contacts;
 };
 const mapStateToProps = (state, ownProps) => ({
-    contacts: getVisibleContacts(state.contacts, ownProps.filter)
+    contacts: getVisibleContacts(state.contacts, ownProps.match.params.filter || 'all')
 });
 const mapDispatchToProps = (dispatch) => ({
     onFavoriteToggle(id) {
         dispatch(toggleFavorite(id));
     }
 });
-const VisibleContactList = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ContactList);
+const VisibleContactList = withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(ContactList)
+);
 
 export default VisibleContactList;

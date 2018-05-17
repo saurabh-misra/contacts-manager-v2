@@ -7,11 +7,11 @@ import Footer from './Footer';
 
 import './App.css';
 
-const App = ({ match }) => (
+const App = () => (
   <div className="App">
       <Header />
       <AddContact />
-      <VisibleContactList filter={match.params.filter || 'all'}/>
+      <VisibleContactList />
       <Footer />
   </div>
 );
