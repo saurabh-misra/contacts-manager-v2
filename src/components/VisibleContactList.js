@@ -13,15 +13,10 @@ const getVisibleContacts = (contacts, filter) => {
 const mapStateToProps = (state, ownProps) => ({
     contacts: getVisibleContacts(state.contacts, ownProps.match.params.filter || 'all')
 });
-const mapDispatchToProps = (dispatch) => ({
-    onFavoriteToggle(id) {
-        dispatch(toggleFavorite(id));
-    }
-});
 const VisibleContactList = withRouter(
     connect(
         mapStateToProps,
-        mapDispatchToProps
+        { onFavoriteToggle: toggleFavorite }
     )(ContactList)
 );
 
