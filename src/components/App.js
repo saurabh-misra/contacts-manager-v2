@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Header from './Header';
 import AddContact from './AddContact';
@@ -7,17 +7,13 @@ import Footer from './Footer';
 
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-          <Header />
-          <AddContact />
-          <VisibleContactList />
-          <Footer />
-      </div>
-    );
-  }
-}
+const App = ({ match }) => (
+  <div className="App">
+      <Header />
+      <AddContact />
+      <VisibleContactList filter={match.params.filter || 'all'}/>
+      <Footer />
+  </div>
+);
 
 export default App;
