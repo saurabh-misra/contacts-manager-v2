@@ -10,11 +10,6 @@ export const addContact = (name, phone) => ({
     }
 });
 
-export const setVisibilityFilter = (filter) => ({
-        type: 'SET_VISIBILITY_FILTER',
-        filter
-});
-
 export const toggleFavorite = (id) => ({
         type: 'TOGGLE_FAVORITE',
         id
