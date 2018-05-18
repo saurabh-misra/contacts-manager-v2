@@ -16,8 +16,6 @@ const byId = (state = {}, action) => {
 };
 
 const allIds = (state = [], action) => {
-    console.log(state);
-    console.log(action);
     switch(action.type){
         case 'ADD_CONTACT':
             return [
@@ -26,7 +24,7 @@ const allIds = (state = [], action) => {
             ];
         default:
             return state;
-    };
+    }
 };
 
 const contacts = combineReducers({
