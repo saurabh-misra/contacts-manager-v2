@@ -14,3 +14,9 @@ export const toggleFavorite = (id) => ({
     type: 'TOGGLE_FAVORITE',
     id
 });
+
+export const receiveContacts = (filter, response) => ({
+    type: 'RECEIVE_CONTACTS',
+    filter,
+    response
+});

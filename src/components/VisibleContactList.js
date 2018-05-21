@@ -3,31 +3,33 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ContactList from './ContactList';
-import { toggleFavorite } from '../actions';
+import * as actions from '../actions';
 import { getVisibleContacts } from '../reducers'; 
 import { fetchContacts } from '../api';
 
 class VisibleContactList extends Component{
-    componentDidMount(){
-        fetchContacts(this.props.filter)
+    fetchData(){
+        const { filter, receiveContacts } = this.props;
+        fetchContacts(filter)
             .then( (contacts) => {
-                console.log(this.props.filter, contacts);
+                receiveContacts(filter, contacts);
             } 
         );
     }
 
+    componentDidMount(){
+        this.fetchData();
+    }
+
     componentDidUpdate(prevProps){
         if(prevProps.filter !== this.props.filter){
-            fetchContacts(this.props.filter)
-                .then( (contacts) => {
-                    console.log(this.props.filter, contacts);
-                } 
-            );
+            this.fetchData();
         }
     }
 
     render(){
-        return <ContactList {...this.props} />;
+        const { toggleFavorite, ...otherProps } = this.props;
+        return <ContactList {...otherProps} onFavoriteToggle={toggleFavorite}/>;
     }
 }
 
@@ -41,7 +43,7 @@ const mapStateToProps = (state, ownProps) => {
 VisibleContactList = withRouter(
     connect(
         mapStateToProps,
-        { onFavoriteToggle: toggleFavorite }
+        actions
     )(VisibleContactList)
 );
 
