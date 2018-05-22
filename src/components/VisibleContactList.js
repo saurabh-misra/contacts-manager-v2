@@ -4,17 +4,12 @@ import { withRouter } from 'react-router-dom';
 
 import ContactList from './ContactList';
 import * as actions from '../actions';
-import { getVisibleContacts } from '../reducers'; 
-import { fetchContacts } from '../api';
+import { getVisibleContacts } from '../reducers';
 
 class VisibleContactList extends Component{
     fetchData(){
-        const { filter, receiveContacts } = this.props;
-        fetchContacts(filter)
-            .then( (contacts) => {
-                receiveContacts(filter, contacts);
-            } 
-        );
+        const { filter, fetchContacts } = this.props;
+        fetchContacts(filter);
     }
 
     componentDidMount(){

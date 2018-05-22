@@ -1,4 +1,5 @@
 import { v4 } from 'node-uuid';
+import * as api from '../api';
 
 export const addContact = (name, phone) => ({
     type: 'ADD_CONTACT',
@@ -15,8 +16,12 @@ export const toggleFavorite = (id) => ({
     id
 });
 
-export const receiveContacts = (filter, response) => ({
+const receiveContacts = (filter, response) => ({
     type: 'RECEIVE_CONTACTS',
     filter,
     response
 });
+
+export const fetchContacts = (filter) => 
+    api.fetchContacts(filter)
+        .then( response => receiveContacts(filter, response) );    
