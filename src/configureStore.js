@@ -1,38 +1,16 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger';
+import promise from 'redux-promise'
 
 import reducer from './reducers';
 
-const loggerMiddleware = (store) => (next) => (action) => {
-    console.group(action.type);
-    console.log('%c prev state', 'color: gray',store.getState());
-    console.log('%c action', 'color: cyan', action);
-    const returnValue = next(action);
-    console.log('%c next state', 'color: green', store.getState());
-    console.groupEnd(action.type);
-    return returnValue;
-};
-
-const promiseMiddleware = (store) => (next) => (action) => {
-    if(typeof action.then === 'function')
-        return action.then(next);
-
-    return next(action);
-};
-
-const wrapDispatchWithMiddlewares = (store, middlewares) => {
-    middlewares.reverse().forEach( middleware => {
-        store.dispatch = middleware(store)(store.dispatch);
-    });
-};
-
 const configureStore = () => {
-    const store = createStore(reducer);
-    const middlewares = [promiseMiddleware];
+    const middlewares = [promise];
 
     if(process.env.NODE_ENV !== 'production')
-        middlewares.push( loggerMiddleware );
+        middlewares.push( createLogger() );
 
-    wrapDispatchWithMiddlewares(store, middlewares);
+    const store = createStore(reducer, applyMiddleware(...middlewares));
 
     return store;
 };
