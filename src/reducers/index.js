@@ -1,13 +1,18 @@
 import { combineReducers } from 'redux';
+import byId, * as fromById from './byIds';
+import createList, * as fromList from './createList';
 
-import contacts, * as fromContacts from './contacts';
-
-const reducer = combineReducers({
-    contacts
+const idsByFilter = combineReducers({
+    all: createList('all'),
+    favorites: createList('favorites')
 });
 
-export default reducer;
+const contacts = combineReducers({
+    byId,
+    idsByFilter
+});
 
-export const getVisibleContacts = (state, filter) => {
-    return fromContacts.getVisibleContacts(state.contacts, filter);
-};
+export default contacts;
+
+export const getVisibleContacts = (state, filter) => fromList.getIds(state.idsByFilter[filter]).map( id => fromById.getContact(state.byId, id) );
+
