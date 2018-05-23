@@ -22,6 +22,14 @@ const receiveContacts = (filter, response) => ({
     response
 });
 
-export const fetchContacts = (filter) => 
-    api.fetchContacts(filter)
-        .then( response => receiveContacts(filter, response) );    
+export const fetchContacts = (filter) => (dispatch) => {
+    dispatch(requestContacts(filter));
+
+    return api.fetchContacts(filter)
+        .then( response => dispatch(receiveContacts(filter, response)) );    
+} 
+
+const requestContacts = (filter) => ({
+    type: 'REQUEST_CONTACTS',
+    filter 
+});
