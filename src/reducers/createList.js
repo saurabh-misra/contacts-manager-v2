@@ -2,12 +2,32 @@ import { combineReducers } from "redux";
 
 const createList = (filter) => {
     const ids = (state = [], action) => {
-        if( action.filter !== filter )
-            return state;
-
         switch(action.type){
             case 'FETCH_CONTACTS_SUCCESS':
+                if( action.filter !== filter )
+                    return state;
+
                 return action.response.map( contact => contact.id );
+            case 'ADD_CONTACT_SUCCESS':
+                if (filter === 'all')
+                    return [
+                        ...state,
+                        action.response.id
+                    ];
+
+                return state;
+            case 'TOGGLE_FAVORITE_SUCCESS':
+                if(filter === 'favorites') {
+                    if (action.response.isFavorite)
+                        return [
+                            ...state,
+                            action.response.id
+                        ];    
+                    else
+                        return state.filter( id => id !== action.response.id)
+                }
+
+                return state;                    
             default:
                 return state;
         }

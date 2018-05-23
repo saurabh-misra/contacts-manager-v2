@@ -25,24 +25,46 @@ const fakeDatabase = {
 
 const fakeAjaxCall = (ms) => (
     new Promise( (resolve) => {
-        if (Math.random() > 0.5 )
-            throw new Error("fattt gaya reee!");
-
         setTimeout( () => { 
-            resolve(fakeDatabase.contacts); 
+            resolve(); 
         }, ms);
     })
 );
 
 export const fetchContacts = (filter) => {
-    return fakeAjaxCall(500).then( (contacts) => {
+    return fakeAjaxCall(500).then( () => {
         switch(filter){
             case 'all':
-                return contacts;
+                return fakeDatabase.contacts;
             case 'favorites':
-                return contacts.filter( contact => contact.isFavorite );
+                return fakeDatabase.contacts.filter( contact => contact.isFavorite );
             default:
                 throw new Error(`Unknown filter: ${filter}`);
         }
     })
 };
+
+export const addContact = (name, phone) => {
+    return fakeAjaxCall(500).then( () => {
+        const contact = {
+            id: v4(),
+            name,
+            phone,
+            isFavorite: false
+        };
+        fakeDatabase.contacts.push(contact);
+
+        return contact;
+    } );
+};
+
+export const toggleFavorite = (id) => {
+    return fakeAjaxCall(500).then( () => {
+        const contact = fakeDatabase.contacts.find( contact => contact.id === id );
+        contact.isFavorite = !contact.isFavorite;
+
+        return contact;
+    } );
+};
+
+

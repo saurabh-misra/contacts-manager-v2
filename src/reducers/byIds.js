@@ -6,6 +6,12 @@ const byId = (state = {}, action) => {
                 nextState[contact.id] = contact;
             });
             return nextState;
+        case 'ADD_CONTACT_SUCCESS':
+        case 'TOGGLE_FAVORITE_SUCCESS':
+            return {
+                ...state,
+                [action.response.id]: action.response
+            };
         default:
             return state;
     }
