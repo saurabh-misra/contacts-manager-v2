@@ -9,7 +9,7 @@ import { getVisibleContacts, getIsFetching } from '../reducers';
 class VisibleContactList extends Component {
     fetchData() {
         const { filter, fetchContacts } = this.props;
-        fetchContacts(filter);
+        fetchContacts(filter).then(() => { console.log('done fetching contacts'); } );
     }
 
     componentDidMount() {
@@ -23,7 +23,7 @@ class VisibleContactList extends Component {
     }
 
     render() {
-        const { toggleFavorite, isFetching, contacts, ...otherProps } = this.props;
+        const { toggleFavorite, isFetching, contacts } = this.props;
         return (isFetching && !contacts.length)
             ? <p>Loading...</p>
             : <ContactList contacts={contacts} onFavoriteToggle={toggleFavorite} />;

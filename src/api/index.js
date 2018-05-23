@@ -31,8 +31,12 @@ const fakeAjaxCall = (ms) => (
     })
 );
 
-export const fetchContacts = (filter) => (
-    fakeAjaxCall(500).then( (contacts) => {
+export const fetchContacts = (filter) => {
+    let ms = 10000;
+    if(filter === 'favorites')
+        ms = 20000;
+
+    return fakeAjaxCall(ms).then( (contacts) => {
         switch(filter){
             case 'all':
                 return contacts;
@@ -42,4 +46,4 @@ export const fetchContacts = (filter) => (
                 throw new Error(`Unknown filter: ${filter}`);
         }
     })
-);
+};

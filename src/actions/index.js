@@ -1,5 +1,7 @@
 import { v4 } from 'node-uuid';
+
 import * as api from '../api';
+import { getIsFetching } from '../reducers';
 
 export const addContact = (name, phone) => ({
     type: 'ADD_CONTACT',
@@ -22,12 +24,15 @@ const receiveContacts = (filter, response) => ({
     response
 });
 
-export const fetchContacts = (filter) => (dispatch) => {
+export const fetchContacts = (filter) => (dispatch, getState) => {
+    if (getIsFetching(getState(), filter))
+        return Promise.resolve();
+
     dispatch(requestContacts(filter));
 
     return api.fetchContacts(filter)
         .then( response => dispatch(receiveContacts(filter, response)) );    
-} 
+};
 
 const requestContacts = (filter) => ({
     type: 'REQUEST_CONTACTS',
