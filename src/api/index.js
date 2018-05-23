@@ -25,6 +25,9 @@ const fakeDatabase = {
 
 const fakeAjaxCall = (ms) => (
     new Promise( (resolve) => {
+        if (Math.random() > 0.5 )
+            throw new Error("fattt gaya reee!");
+
         setTimeout( () => { 
             resolve(fakeDatabase.contacts); 
         }, ms);
@@ -32,11 +35,7 @@ const fakeAjaxCall = (ms) => (
 );
 
 export const fetchContacts = (filter) => {
-    let ms = 10000;
-    if(filter === 'favorites')
-        ms = 20000;
-
-    return fakeAjaxCall(ms).then( (contacts) => {
+    return fakeAjaxCall(500).then( (contacts) => {
         switch(filter){
             case 'all':
                 return contacts;

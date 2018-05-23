@@ -18,23 +18,26 @@ export const toggleFavorite = (id) => ({
     id
 });
 
-const receiveContacts = (filter, response) => ({
-    type: 'RECEIVE_CONTACTS',
-    filter,
-    response
-});
-
 export const fetchContacts = (filter) => (dispatch, getState) => {
     if (getIsFetching(getState(), filter))
         return Promise.resolve();
 
-    dispatch(requestContacts(filter));
+    dispatch({
+        type: 'FETCH_CONTACTS_BEGIN',
+        filter 
+    });
 
     return api.fetchContacts(filter)
-        .then( response => dispatch(receiveContacts(filter, response)) );    
+        .then( 
+            response => dispatch({
+                type: 'FETCH_CONTACTS_SUCCESS',
+                filter,
+                response
+            }),
+            error => dispatch({
+                type: 'FETCH_CONTACTS_FAILURE',
+                filter,
+                message: error.message
+            })
+        );    
 };
-
-const requestContacts = (filter) => ({
-    type: 'REQUEST_CONTACTS',
-    filter 
-});

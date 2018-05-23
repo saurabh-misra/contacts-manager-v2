@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ContactList from './ContactList';
+import FetchError from './FetchError';
 import * as actions from '../actions';
-import { getVisibleContacts, getIsFetching } from '../reducers';
+import { getVisibleContacts, getIsFetching, getErrorMessage } from '../reducers';
 
 class VisibleContactList extends Component {
     fetchData() {
@@ -23,7 +24,17 @@ class VisibleContactList extends Component {
     }
 
     render() {
-        const { toggleFavorite, isFetching, contacts } = this.props;
+        const { toggleFavorite, isFetching, contacts, errorMessage } = this.props;
+
+        if(errorMessage && !contacts.length){
+            return (
+                <FetchError 
+                    message={errorMessage}
+                    onRetry={ () => { this.fetchData(); } }
+                />
+            );
+        }
+
         return (isFetching && !contacts.length)
             ? <p>Loading...</p>
             : <ContactList contacts={contacts} onFavoriteToggle={toggleFavorite} />;
@@ -35,6 +46,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         contacts: getVisibleContacts(state, filter),
         isFetching: getIsFetching(state, filter),
+        errorMessage: getErrorMessage(state, filter),
         filter
     }
 };
