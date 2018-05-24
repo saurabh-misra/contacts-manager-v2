@@ -7,24 +7,24 @@ const createList = (filter) => {
                 if( action.filter !== filter )
                     return state;
 
-                return action.response.map( contact => contact.id );
+                return action.response.result;
             case 'ADD_CONTACT_SUCCESS':
                 if (filter === 'all')
                     return [
                         ...state,
-                        action.response.id
+                        action.response.result
                     ];
 
                 return state;
             case 'TOGGLE_FAVORITE_SUCCESS':
                 if(filter === 'favorites') {
-                    if (action.response.isFavorite)
+                    if (action.response.entities.contacts[action.response.result].isFavorite)
                         return [
                             ...state,
-                            action.response.id
+                            action.response.result
                         ];    
                     else
-                        return state.filter( id => id !== action.response.id)
+                        return state.filter( id => id !== action.response.result)
                 }
 
                 return state;                    

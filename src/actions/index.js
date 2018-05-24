@@ -1,12 +1,14 @@
 import * as api from '../api';
 import { getIsFetching } from '../reducers';
+import { normalize } from 'normalizr';
+import * as schema from './schema';
 
 export const addContact = (name, phone) => (dispatch) => {
     return api.addContact(name, phone).then( 
         (response) => {
             dispatch({
                 type: 'ADD_CONTACT_SUCCESS',
-                response
+                response: normalize(response, schema.contactSchema)
             });
         } 
     );
@@ -17,7 +19,7 @@ export const toggleFavorite = (id) => (dispatch) => {
         (response) => {
             dispatch({
                 type: 'TOGGLE_FAVORITE_SUCCESS',
-                response
+                response: normalize(response, schema.contactSchema)
             });
         } 
     );
@@ -34,11 +36,13 @@ export const fetchContacts = (filter) => (dispatch, getState) => {
 
     return api.fetchContacts(filter)
         .then( 
-            response => dispatch({
-                type: 'FETCH_CONTACTS_SUCCESS',
-                filter,
-                response
-            }),
+            response => {
+                dispatch({
+                    type: 'FETCH_CONTACTS_SUCCESS',
+                    filter,
+                    response: normalize(response, schema.contactListSchema)
+                })
+            },
             error => dispatch({
                 type: 'FETCH_CONTACTS_FAILURE',
                 filter,
